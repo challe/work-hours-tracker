@@ -5,6 +5,9 @@ import { MonthlyOverview } from './components/MonthlyOverview';
 
 export interface DayEntry {
   date: string; // YYYY-MM-DD format
+  workTypeId: number;
+  workTypeName: string;
+  project: string;
   hoursWorked: string;
   travelHours: string;
   locationFrom: string;
@@ -61,11 +64,11 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-[#101318] to-[#1b1f27]">
       <div className="max-w-4xl mx-auto p-4 sm:p-6">
         <header className="mb-6 text-center">
-          <h1 className="text-slate-800 mb-2">Arbetstid</h1>
-          <p className="text-slate-600">Registrera dina arbetstimmar och resor</p>
+          <h1 className="text-white mb-2">Arbetstid</h1>
+          <p className="text-slate-400">Registrera dina arbetstimmar och resor</p>
         </header>
 
         <div className="flex gap-2 mb-4">
@@ -73,8 +76,8 @@ export default function App() {
             onClick={() => setView('calendar')}
             className={`flex-1 py-3 px-4 rounded-lg transition-all ${
               view === 'calendar'
-                ? 'bg-white text-indigo-600 shadow-md'
-                : 'bg-white/50 text-slate-600 hover:bg-white/80'
+                ? 'bg-[#39ac63] text-white shadow-md'
+                : 'bg-white/10 text-slate-300 hover:bg-white/20'
             }`}
           >
             Kalender
@@ -83,8 +86,8 @@ export default function App() {
             onClick={() => setView('overview')}
             className={`flex-1 py-3 px-4 rounded-lg transition-all ${
               view === 'overview'
-                ? 'bg-white text-indigo-600 shadow-md'
-                : 'bg-white/50 text-slate-600 hover:bg-white/80'
+                ? 'bg-[#39ac63] text-white shadow-md'
+                : 'bg-white/10 text-slate-300 hover:bg-white/20'
             }`}
           >
             Översikt

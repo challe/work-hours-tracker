@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Plus, CheckCircle2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import type { DayEntry } from '../App';
 
 interface CalendarProps {
@@ -63,20 +63,16 @@ export function Calendar({ currentMonth, onMonthChange, entries, onDateSelect }:
         key={day}
         onClick={() => handleDayClick(day)}
         className={`aspect-square rounded-xl transition-all hover:scale-105 active:scale-95 relative flex flex-col items-center justify-center ${
-          isCurrentDay
-            ? 'bg-indigo-600 text-white shadow-lg'
+          isCurrentDay && hasEntryForDay
+            ? 'bg-[#39ac63] text-white shadow-lg ring-2 ring-white/30'
+            : isCurrentDay
+            ? 'bg-white/20 text-white shadow-lg ring-2 ring-white/30'
             : hasEntryForDay
-            ? 'bg-white text-indigo-600 shadow-md'
-            : 'bg-white/50 text-slate-700 hover:bg-white hover:shadow-md'
+            ? 'bg-[#39ac63] text-white shadow-md'
+            : 'bg-white/10 text-slate-300 hover:bg-white/20 hover:shadow-md'
         }`}
       >
         <span>{day}</span>
-        {hasEntryForDay && !isCurrentDay && (
-          <CheckCircle2 className="w-4 h-4 absolute top-1 right-1" />
-        )}
-        {hasEntryForDay && isCurrentDay && (
-          <CheckCircle2 className="w-4 h-4 absolute top-1 right-1 text-white" />
-        )}
         {!hasEntryForDay && (
           <Plus className="w-3 h-3 absolute bottom-1 right-1 opacity-40" />
         )}
@@ -87,28 +83,28 @@ export function Calendar({ currentMonth, onMonthChange, entries, onDateSelect }:
   const monthName = currentMonth.toLocaleDateString('sv-SE', { month: 'long', year: 'numeric' });
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6">
+    <div className="bg-[#1b1f27] rounded-2xl shadow-lg p-6 border border-white/10">
       {/* Month navigation */}
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={previousMonth}
-          className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors"
         >
-          <ChevronLeft className="w-6 h-6 text-slate-600" />
+          <ChevronLeft className="w-6 h-6 text-slate-300" />
         </button>
-        <h2 className="text-slate-800">{monthName}</h2>
+        <h2 className="text-white">{monthName}</h2>
         <button
           onClick={nextMonth}
-          className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors"
         >
-          <ChevronRight className="w-6 h-6 text-slate-600" />
+          <ChevronRight className="w-6 h-6 text-slate-300" />
         </button>
       </div>
 
       {/* Day labels */}
       <div className="grid grid-cols-7 gap-2 mb-2">
         {['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'].map(day => (
-          <div key={day} className="text-center text-slate-500 py-2">
+          <div key={day} className="text-center text-slate-400 py-2">
             {day}
           </div>
         ))}
@@ -120,19 +116,17 @@ export function Calendar({ currentMonth, onMonthChange, entries, onDateSelect }:
       </div>
 
       {/* Legend */}
-      <div className="mt-6 pt-6 border-t border-slate-200 flex flex-wrap gap-4 justify-center text-slate-600">
+      <div className="mt-6 pt-6 border-t border-white/10 flex flex-wrap gap-4 justify-center text-slate-300">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded bg-indigo-600" />
+          <div className="w-4 h-4 rounded bg-white/20 ring-2 ring-white/30" />
           <span>Idag</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded bg-white shadow-md flex items-center justify-center">
-            <CheckCircle2 className="w-3 h-3 text-indigo-600" />
-          </div>
+          <div className="w-4 h-4 rounded bg-[#39ac63]" />
           <span>Registrerad</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded bg-white/50 flex items-center justify-center">
+          <div className="w-4 h-4 rounded bg-white/10 flex items-center justify-center">
             <Plus className="w-3 h-3 text-slate-400" />
           </div>
           <span>Ej registrerad</span>

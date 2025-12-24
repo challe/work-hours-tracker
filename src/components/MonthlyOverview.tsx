@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Clock, MapPin, FileText, Edit } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, MapPin, FileText, Edit, Briefcase } from 'lucide-react';
 import type { DayEntry } from '../App';
 
 interface MonthlyOverviewProps {
@@ -45,37 +45,37 @@ export function MonthlyOverview({ currentMonth, onMonthChange, entries, onDateSe
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6">
+    <div className="bg-[#1b1f27] rounded-2xl shadow-lg p-6 border border-white/10">
       {/* Month navigation */}
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={previousMonth}
-          className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors"
         >
-          <ChevronLeft className="w-6 h-6 text-slate-600" />
+          <ChevronLeft className="w-6 h-6 text-slate-300" />
         </button>
-        <h2 className="text-slate-800">{monthName}</h2>
+        <h2 className="text-white">{monthName}</h2>
         <button
           onClick={nextMonth}
-          className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors"
         >
-          <ChevronRight className="w-6 h-6 text-slate-600" />
+          <ChevronRight className="w-6 h-6 text-slate-300" />
         </button>
       </div>
 
       {/* Summary cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-4">
-          <div className="text-indigo-600 mb-1">Dagar registrerade</div>
-          <div className="text-indigo-900">{monthEntries.length}</div>
+        <div className="bg-white/10 rounded-xl p-4 border border-white/10">
+          <div className="text-[#39ac63] mb-1">Dagar registrerade</div>
+          <div className="text-white">{monthEntries.length}</div>
         </div>
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4">
-          <div className="text-purple-600 mb-1">Totala timmar</div>
-          <div className="text-purple-900">{totalHoursWorked.toFixed(1)} tim</div>
+        <div className="bg-white/10 rounded-xl p-4 border border-white/10">
+          <div className="text-[#39ac63] mb-1">Totala timmar</div>
+          <div className="text-white">{totalHoursWorked.toFixed(1)} tim</div>
         </div>
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4">
-          <div className="text-blue-600 mb-1">Resetimmar</div>
-          <div className="text-blue-900">{totalTravelHours.toFixed(1)} tim</div>
+        <div className="bg-white/10 rounded-xl p-4 border border-white/10">
+          <div className="text-[#39ac63] mb-1">Resetimmar</div>
+          <div className="text-white">{totalTravelHours.toFixed(1)} tim</div>
         </div>
       </div>
 
@@ -90,28 +90,38 @@ export function MonthlyOverview({ currentMonth, onMonthChange, entries, onDateSe
           monthEntries.map(entry => (
             <div
               key={entry.date}
-              className="bg-slate-50 rounded-xl p-4 hover:bg-slate-100 transition-colors"
+              className="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-colors border border-white/10"
             >
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <div className="text-slate-800">{formatDate(entry.date)}</div>
-                  <div className="text-slate-500">{entry.date}</div>
+                  <div className="text-white">{formatDate(entry.date)}</div>
+                  <div className="text-slate-400">{entry.date}</div>
                 </div>
                 <button
                   onClick={() => onDateSelect(entry.date)}
-                  className="p-2 hover:bg-white rounded-lg transition-colors"
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                 >
-                  <Edit className="w-4 h-4 text-slate-600" />
+                  <Edit className="w-4 h-4 text-slate-300" />
                 </button>
               </div>
 
+              {/* Type and Project */}
+              {(entry.workTypeName || entry.project) && (
+                <div className="flex items-center gap-2 text-[#39ac63] mb-3">
+                  <Briefcase className="w-4 h-4" />
+                  <span>
+                    {entry.workTypeName}{entry.workTypeName && entry.project && ' • '}{entry.project}
+                  </span>
+                </div>
+              )}
+
               <div className="grid grid-cols-2 gap-3">
-                <div className="flex items-center gap-2 text-slate-600">
+                <div className="flex items-center gap-2 text-slate-300">
                   <Clock className="w-4 h-4" />
                   <span>{entry.hoursWorked} tim arbetade</span>
                 </div>
                 {entry.travelHours && parseFloat(entry.travelHours) > 0 && (
-                  <div className="flex items-center gap-2 text-slate-600">
+                  <div className="flex items-center gap-2 text-slate-300">
                     <Clock className="w-4 h-4" />
                     <span>{entry.travelHours} tim resa</span>
                   </div>
@@ -119,7 +129,7 @@ export function MonthlyOverview({ currentMonth, onMonthChange, entries, onDateSe
               </div>
 
               {(entry.locationFrom || entry.locationTo) && (
-                <div className="flex items-center gap-2 text-slate-600 mt-2">
+                <div className="flex items-center gap-2 text-slate-300 mt-2">
                   <MapPin className="w-4 h-4 flex-shrink-0" />
                   <span className="truncate">
                     {entry.locationFrom} {entry.locationFrom && entry.locationTo && '→'} {entry.locationTo}
@@ -128,7 +138,7 @@ export function MonthlyOverview({ currentMonth, onMonthChange, entries, onDateSe
               )}
 
               {entry.notes && (
-                <div className="flex items-start gap-2 text-slate-600 mt-2">
+                <div className="flex items-start gap-2 text-slate-300 mt-2">
                   <FileText className="w-4 h-4 flex-shrink-0 mt-0.5" />
                   <span className="line-clamp-2">{entry.notes}</span>
                 </div>
