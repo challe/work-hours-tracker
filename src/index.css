@@ -60,7 +60,6 @@
     --color-slate-300: oklch(.869 .022 252.894);
     --color-slate-400: oklch(.704 .04 256.788);
     --color-slate-500: oklch(.554 .046 257.417);
-    --color-slate-600: oklch(.446 .043 257.281);
     --color-white: #fff;
     --spacing: .25rem;
     --container-3xl: 48rem;
@@ -966,14 +965,6 @@
   .ease-out {
     --tw-ease: var(--ease-out);
     transition-timing-function: var(--ease-out);
-  }
-
-  .placeholder\:text-slate-500::placeholder {
-    color: var(--color-slate-500);
-  }
-
-  .placeholder\:text-slate-600::placeholder {
-    color: var(--color-slate-600);
   }
 
   @media (hover: hover) {

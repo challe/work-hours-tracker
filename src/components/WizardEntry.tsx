@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Check, Copy, ChevronDown } from 'lucide-react';
 import type { DayEntry } from '../App';
 
@@ -38,36 +38,31 @@ const fieldConfigs: FieldConfig[] = [
   { 
     id: 'hoursWorked', 
     label: 'Arbetade timmar', 
-    type: 'number', 
-    placeholder: '8.0',
+    type: 'number',
     workTypeIds: [1, 2, 3] // All types
   },
   { 
     id: 'travelHours', 
     label: 'Resetimmar', 
-    type: 'number', 
-    placeholder: '0.0',
+    type: 'number',
     workTypeIds: [1, 2, 3] // All types
   },
   { 
     id: 'locationFrom', 
     label: 'Från plats', 
-    type: 'text', 
-    placeholder: 'Hemmet / Kontoret',
+    type: 'text',
     workTypeIds: [1, 2] // Only Skotare and Skördare
   },
   { 
     id: 'locationTo', 
     label: 'Till plats', 
-    type: 'text', 
-    placeholder: 'Kontoret / Kundplats',
+    type: 'text',
     workTypeIds: [1, 2] // Only Skotare and Skördare
   },
   { 
     id: 'notes', 
     label: 'Anteckningar', 
-    type: 'textarea', 
-    placeholder: 'Eventuella anteckningar för dagen...',
+    type: 'textarea',
     workTypeIds: [1, 2, 3] // All types
   },
 ];
@@ -78,9 +73,9 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
   const [entry, setEntry] = useState<DayEntry>(
     existingEntry || {
       date,
-      workTypeId: 0,
-      workTypeName: '',
-      project: '',
+      workTypeId: previousEntry?.workTypeId || 0,
+      workTypeName: previousEntry?.workTypeName || '',
+      project: previousEntry?.project || '',
       hoursWorked: '',
       travelHours: '',
       locationFrom: '',
@@ -88,6 +83,14 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
       notes: '',
     }
   );
+  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+
+  // Focus input when step changes
+  useEffect(() => {
+    if (!isSetupPhase && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [currentStep, isSetupPhase]);
 
   // Get applicable fields based on selected work type
   const getApplicableFields = (): FieldConfig[] => {
@@ -159,6 +162,16 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
     }
   };
 
+  const handleCopyEntireDay = () => {
+    if (previousEntry) {
+      // Copy all fields from previous day and save immediately
+      onSave({
+        ...previousEntry,
+        date, // Keep current date
+      });
+    }
+  };
+
   const handleChange = (fieldId: keyof DayEntry, value: string | number) => {
     setEntry(prev => ({
       ...prev,
@@ -196,10 +209,7 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
           {/* Main card */}
           <div className="bg-[#1b1f27] rounded-3xl shadow-2xl p-8 sm:p-16 border border-white/10">
             {/* Work Type Selection */}
-            <div className="mb-8">
-              <label className="block text-center mb-4">
-                <span className="text-white text-2xl">Typ av arbete</span>
-              </label>
+            <div className="mb-6">
               <div className="relative">
                 <select
                   value={entry.workTypeId || ''}
@@ -222,9 +232,6 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
 
             {/* Project Selection */}
             <div className="mb-10">
-              <label className="block text-center mb-4">
-                <span className="text-white text-2xl">Projekt</span>
-              </label>
               <div className="relative">
                 <select
                   value={entry.project}
@@ -245,24 +252,24 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
               </div>
             </div>
 
-            {/* Copy from previous day button */}
+            {/* Copy entire day and save immediately */}
             {canCopySetup && (
               <button
-                onClick={handleCopySetupFromPrevious}
-                className="mb-6 w-full py-5 px-6 bg-white/10 hover:bg-white/20 text-slate-200 rounded-2xl transition-all flex items-center justify-center gap-3 text-xl"
+                onClick={handleCopyEntireDay}
+                className="mt-6 mb-6 w-full py-5 px-6 bg-white/10 hover:bg-white/20 text-slate-200 rounded-2xl transition-all flex items-center justify-center gap-3 text-xl"
               >
                 <Copy className="w-6 h-6" />
-                Kopiera från föregående dag
+                Kopiera hela föregående dag
               </button>
             )}
 
-            {/* Next button */}
+            {/* Next button - fill in new values */}
             <button
               onClick={handleSetupComplete}
               disabled={!entry.workTypeId || !entry.project}
               className="w-full py-8 px-8 bg-[#39ac63] hover:bg-[#2d8c4d] text-white rounded-3xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 text-3xl mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Nästa
+              Fyll i uppgifter
               <ChevronRight className="w-8 h-8" />
             </button>
 
@@ -295,9 +302,9 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
         <textarea
           value={value}
           onChange={(e) => handleChange(currentField.id, e.target.value)}
-          placeholder={currentField.placeholder}
-          className="w-full px-8 py-12 text-center text-white bg-[#101318] border-4 border-white/20 rounded-3xl focus:outline-none focus:border-[#39ac63] transition-all min-h-64 resize-none text-2xl placeholder:text-slate-500"
+          className="w-full px-8 py-12 text-center text-white bg-[#101318] border-4 border-white/20 rounded-3xl focus:outline-none focus:border-[#39ac63] transition-all min-h-64 resize-none text-2xl"
           autoFocus
+          ref={inputRef as React.RefObject<HTMLTextAreaElement>}
         />
       );
     }
@@ -307,11 +314,11 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
         type={currentField.type}
         value={value}
         onChange={(e) => handleChange(currentField.id, e.target.value)}
-        placeholder={currentField.placeholder}
         step={currentField.type === 'number' ? '0.5' : undefined}
         inputMode={currentField.type === 'number' ? 'decimal' : 'text'}
-        className="w-full px-8 py-12 text-center text-white bg-[#101318] border-4 border-white/20 rounded-3xl focus:outline-none focus:border-[#39ac63] transition-all text-6xl placeholder:text-slate-600"
+        className="w-full px-8 py-12 text-center text-white bg-[#101318] border-4 border-white/20 rounded-3xl focus:outline-none focus:border-[#39ac63] transition-all text-6xl"
         autoFocus
+        ref={inputRef as React.RefObject<HTMLInputElement>}
       />
     );
   };
