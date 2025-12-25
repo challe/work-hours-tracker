@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Calendar } from './components/Calendar';
 import { WizardEntry } from './components/WizardEntry';
 import { MonthlyOverview } from './components/MonthlyOverview';
+import { TreePine } from 'lucide-react';
 
 export interface DayEntry {
   date: string; // YYYY-MM-DD format
@@ -66,11 +67,6 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#101318] to-[#1b1f27]">
       <div className="max-w-4xl mx-auto p-4 sm:p-6">
-        <header className="mb-6 text-center">
-          <h1 className="text-white mb-2">Arbetstid</h1>
-          <p className="text-slate-400">Registrera dina arbetstimmar och resor</p>
-        </header>
-
         <div className="flex gap-2 mb-4">
           <button
             onClick={() => setView('calendar')}
