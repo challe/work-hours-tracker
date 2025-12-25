@@ -87,16 +87,7 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
   const blurRef = useRef<HTMLLabelElement>(null);
 
   // Focus input when step changes
-  useEffect(() => {
-    if (!isSetupPhase && inputRef.current) {
-      // Blur first to force Safari to update keyboard type
-      blurRef.current.focus();
-      inputRef.current.focus();
 
-      // Then focus with a small delay
-    
-    }
-  }, [currentStep, isSetupPhase, inputRef]);
 
   // Get applicable fields based on selected work type
   const getApplicableFields = (): FieldConfig[] => {
@@ -309,7 +300,7 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
           value={value}
           onChange={(e) => handleChange(currentField.id, e.target.value)}
           className="w-full px-8 py-8 text-center text-white bg-[#101318] border-4 border-white/20 rounded-3xl focus:outline-none focus:border-[#39ac63] transition-all min-h-64 resize-none text-2xl"
-          autoFocus
+          
           ref={inputRef as React.RefObject<HTMLTextAreaElement>}
         />
       );
@@ -319,12 +310,15 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
       <input
         type={currentField.type}
         value={value}
+        id={`${currentField.id}-input`}
+        name={`${currentField.id}-input`}
+        key={`${currentField.id}-input`}
         onChange={(e) => handleChange(currentField.id, e.target.value)}
         step={currentField.type === 'number' ? '0.5' : undefined}
         inputMode={currentField.type === 'number' ? 'decimal' : 'text'}
         className="w-full px-8 py-8 text-center text-white bg-[#101318] border-4 border-white/20 rounded-3xl focus:outline-none focus:border-[#39ac63] transition-all text-6xl"
-        
         ref={inputRef as React.RefObject<HTMLInputElement>}
+        autoFocus
       />
     );
   };
