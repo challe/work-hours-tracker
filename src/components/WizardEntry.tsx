@@ -216,7 +216,7 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
                   value={entry.workTypeId || ''}
                   onChange={(e) => handleWorkTypeChange(Number(e.target.value))}
                   className="w-full px-8 py-8 text-center text-white bg-[#101318] border-4 border-white/20 rounded-3xl focus:outline-none focus:border-[#39ac63] transition-all text-3xl appearance-none cursor-pointer"
-                  autoFocus
+                  autoFocus={!!entry.workTypeId}
                 >
                   <option value="" disabled className="bg-[#1b1f27] text-slate-400">
                     Arbete
