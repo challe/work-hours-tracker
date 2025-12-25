@@ -88,10 +88,11 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
   // Focus input when step changes
   useEffect(() => {
     if (!isSetupPhase && inputRef.current) {
+      inputRef.current.blur();
       inputRef.current.focus();
       inputRef.current.click();
     }
-  }, [currentStep, isSetupPhase]);
+  }, [currentStep, isSetupPhase, inputRef]);
 
   // Get applicable fields based on selected work type
   const getApplicableFields = (): FieldConfig[] => {
