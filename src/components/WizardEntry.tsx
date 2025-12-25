@@ -88,9 +88,13 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
   // Focus input when step changes
   useEffect(() => {
     if (!isSetupPhase && inputRef.current) {
+      // Blur first to force Safari to update keyboard type
       inputRef.current.blur();
-      inputRef.current.focus();
-      inputRef.current.click();
+      // Then focus with a small delay
+      setTimeout(() => {
+        inputRef.current.focus();
+        inputRef.current.click();
+      }, 500);
     }
   }, [currentStep, isSetupPhase, inputRef]);
 
