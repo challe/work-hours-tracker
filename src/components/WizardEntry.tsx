@@ -89,7 +89,7 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
   useEffect(() => {
     if (!isSetupPhase && inputRef.current) {
       // Blur first to force Safari to update keyboard type
-      inputRef.current.blur();
+      //inputRef.current.blur();
       // Then focus with a small delay
       setTimeout(() => {
         if (inputRef.current) {
