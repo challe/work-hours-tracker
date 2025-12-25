@@ -84,17 +84,20 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
     }
   );
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  const blurRef = useRef<HTMLLabelElement>(null);
 
   // Focus input when step changes
   useEffect(() => {
     if (!isSetupPhase && inputRef.current) {
       // Blur first to force Safari to update keyboard type
-      inputRef.current.blur();
+      setTimeout(() => {
+        blurRef.current.focus();
+      }, 50);
+
       // Then focus with a small delay
       setTimeout(() => {
         inputRef.current.focus();
-        inputRef.current.click();
-      }, 500);
+      }, 50);
     }
   }, [currentStep, isSetupPhase, inputRef]);
 
@@ -356,7 +359,7 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
         <div className="bg-[#1b1f27] rounded-3xl shadow-2xl p-8 sm:p-16 border border-white/10">
           {/* Current question */}
           <div className="mb-10">
-            <label className="block text-center mb-8">
+            <label className="block text-center mb-8" ref={blurRef as React.RefObject<HTMLLabelElement>}>
               <span className="text-white text-3xl">{currentField.label}</span>
             </label>
 
