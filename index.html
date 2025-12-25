@@ -6,25 +6,32 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>MIDA</title>
 
-      <!-- PWA -->
+      <!-- PWA Manifest -->
       <link rel="manifest" href="/manifest.json">
 
-      <!-- iOS: kör som app -->
-      <meta name="apple-mobile-web-app-capable" content="yes">
-      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-      <meta name="apple-mobile-web-app-title" content="MyApp">
-
-      <!-- Theme color -->
+      <!-- Theme color (Android & iOS fallback) -->
       <meta name="theme-color" content="#39AC63">
 
-      <!-- Apple touch icon -->
+      <!-- iOS: Standalone mode -->
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="mobile-web-app-capable" content="yes">
+
+      <!-- iOS: Status bar style -->
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+      <!-- iOS: App title on home screen -->
+      <meta name="apple-mobile-web-app-title" content="Extraordinary App">
+
+      <!-- Viewport for safe areas + fullscreen -->
+      <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+      <!-- iOS: App icon -->
       <link rel="apple-touch-icon" href="/icon.png">
 
-      <!-- Viewport + safe area -->
-      <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-      />
+      <!-- Optional Android icons fallback (Chrome, other webviews) -->
+      <link rel="icon" type="image/png" sizes="192x192" href="/icon.png">
+      <link rel="icon" type="image/png" sizes="512x512" href="/icon.png">
+
     </head>
 
     <body>
