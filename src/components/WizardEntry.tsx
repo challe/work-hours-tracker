@@ -94,6 +94,7 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
       setTimeout(() => {
         if (inputRef.current) {
           inputRef.current.focus();
+          inputRef.current.click();
         }
       }, 100);
     }
