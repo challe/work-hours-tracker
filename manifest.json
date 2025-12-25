@@ -1,9 +1,9 @@
 {
-  "name": "My App",
-  "short_name": "MyApp",
+  "name": "MIDA",
+  "short_name": "MIDA",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#39AC63",
+  "background_color": "#101318",
   "theme_color": "#39AC63",
   "icons": [
     {
