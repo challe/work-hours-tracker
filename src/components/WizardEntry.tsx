@@ -87,7 +87,11 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
   const blurRef = useRef<HTMLLabelElement>(null);
 
   // Focus input when step changes
-
+  useEffect(() => {
+    if (!isSetupPhase) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   // Get applicable fields based on selected work type
   const getApplicableFields = (): FieldConfig[] => {
@@ -300,7 +304,7 @@ export function WizardEntry({ date, existingEntry, previousEntry, onSave, onCanc
           value={value}
           onChange={(e) => handleChange(currentField.id, e.target.value)}
           className="w-full px-8 py-8 text-center text-white bg-[#101318] border-4 border-white/20 rounded-3xl focus:outline-none focus:border-[#39ac63] transition-all min-h-64 resize-none text-2xl"
-          
+          autoFocus
           ref={inputRef as React.RefObject<HTMLTextAreaElement>}
         />
       );
