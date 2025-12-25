@@ -188,7 +188,7 @@ html {
 /* Reset + bakgrund bakom statusbar */
 html,
 body {
-  margin: 0;
+  margin: 10;
   padding: 0;
   overscroll-behavior: none;
 }
@@ -196,7 +196,7 @@ body {
 /* App-wrapper */
 .app {
   min-height: 100dvh;
-  padding-top: env(safe-area-inset-top);
+  padding-top: calc(env(safe-area-inset-top) + 20px); /* 20px extra */
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
